@@ -30,14 +30,24 @@ export function Content() {
         console.log("handleClose")
         setIsShowVisible(false)
     }
+
+    const handleDestroyPhoto = (photo) => {
+        console.log("handleDestroyPhoto", player);
+        axios.delete{'http://localhost:3000/photos/${photo.id}.json'}.then((response) => {
+            setPhotos(photos.filter((p) => p.id !== photo.id))
+            handleClose()
+        })
+
+    }
     useEffect(handleIndexPhotos, []);
+
     
     return (
         <>
         <PhotosIndex photos={photos} />
         <PhotosNew onCreatePhoto={handleCreatePhoto} onShowPhoto={handleShowPhoto}/>
         <Modal show={isPhotosShowVisible} onClose={handleClose}>
-            <PhotosShow photo={currentPhoto} />
+            <PhotosShow photo={currentPhoto} onDestroyPhoto={handleDestroyPhoto}/>
         </Modal>
         </>
         )
