@@ -1,4 +1,5 @@
 import { PhotosIndex } from "./PhotosIndex"
+import { PhotosNew } from "./PhotosNew"
 import axios from "axios"
 import { useState, useEffect } from "react"
 
@@ -12,10 +13,18 @@ const handleIndexPhotos = () => {
         setPhotos(response.data)
     })
 }
+const handleCreatePhotos = (params, successCallback) => {
+    console.log("handleCreatePhotos")
+    axios.post("http://localhost:3000/photos.json", params).then((response) => {
+        setPhotos([...photos, response.data])
+        successCallback()
+    })
+}
  
 useEffect(handleIndexPhotos, [])
     return (
         <div>
+            <PhotosNew onCreatePhoto={handleCreatePhoto} />
             <PhotosIndex photos={photos} />
         </div>
     )
