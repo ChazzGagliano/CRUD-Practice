@@ -5,6 +5,9 @@ export function PhotosShow(props) {
         const params = new FormData(event.target)
         props.onUpdatePhoto(props.photo.id, params, () => event.target.reset())
     }
+    const handleClick = () => {
+        props.onDestroyPhoto(props.photo)
+    }
     return (
         <div>
             <h1>Photo Information</h1>
@@ -27,6 +30,7 @@ export function PhotosShow(props) {
             </div>
             <button type="submit">Update Photo</button>
         </form>
+        <button onClick={handleClick}>Destroy Photo</button>
         </div>
     )
 }

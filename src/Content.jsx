@@ -51,6 +51,11 @@ const handleClose = () => {
     console.log("handleClose")
     setIsPhotosShowVisible(false)
 }
+const handleDestroyPhoto = (photo) => {
+    console.log("handleDestroyPhoto")
+    axios.delete("http://localhost:3000/photos/${photo.id}.json")
+    setPhotos(photo.filter((p) => p.id !== photo.id))
+}
  
 useEffect(handleIndexPhotos, [])
     return (
@@ -58,7 +63,7 @@ useEffect(handleIndexPhotos, [])
             <PhotosNew onCreatePhoto={handleCreatePhoto} />
             <PhotosIndex photos={photos} onShowPhoto={handleShowPhoto} />
             <Modal show={isPhotoShowVisible} onClose={handleClose}>
-                <PhotosShow photo={currentPhoto} onUpdatePhoto={handleUpdatePhoto} />
+                <PhotosShow photo={currentPhoto} onUpdatePhoto={handleUpdatePhoto} ondDestroyPhoto={handleDestroyPhoto} />
             </Modal>
         </div>
     )
