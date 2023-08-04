@@ -30,6 +30,23 @@ const handleShowPhoto = (photo) => {
     setIsPhotosShowVisible(true)
     setCurrentPhoto(photo)
 }
+const handleUpdatePhoto = (id, params, successCallback) => {
+    console.log("handleUpdatePhoto")
+    axios.patch("http://localhost:3000/photos/${id}.json", params).then((response) => {
+        setPhotos(
+            photos.map((photos) => {
+                if (photo.id === response.data.id) {
+                    return response.data
+                } else {
+                    return photo
+                }
+
+            })
+        )
+        successCallback()
+        handleClose()
+    })
+}
 const handleClose = () => {
     console.log("handleClose")
     setIsPhotosShowVisible(false)
@@ -41,7 +58,7 @@ useEffect(handleIndexPhotos, [])
             <PhotosNew onCreatePhoto={handleCreatePhoto} />
             <PhotosIndex photos={photos} onShowPhoto={handleShowPhoto} />
             <Modal show={isPhotoShowVisible} onClose={handleClose}>
-                <PhotosShow photo={currentPhoto} />
+                <PhotosShow photo={currentPhoto} onUpdatePhoto={handleUpdatePhoto} />
             </Modal>
         </div>
     )
